@@ -3,6 +3,8 @@ package com.rp;
 import com.rp.util.Util;
 import reactor.core.publisher.Mono;
 
+import java.util.function.Supplier;
+
 /**
  * @PROJECT Mono_Project
  * @Author Elimane on 03/11/2022
@@ -15,7 +17,8 @@ public class MonoFromSupplier {
    // Mono<String> mono = Mono.just(getName());
 
     // Instead we can use Mono from supplier
-    Mono<String> mono = Mono.fromSupplier(() -> getName());
+    Supplier<String> stringSupplier = () -> getName();
+    Mono<String> mono = Mono.fromSupplier(stringSupplier);
     mono.subscribe(
       Util.onNext(),
       Util.onError(),
