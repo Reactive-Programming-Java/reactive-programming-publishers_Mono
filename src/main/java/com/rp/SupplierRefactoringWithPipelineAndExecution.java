@@ -12,12 +12,14 @@ public class SupplierRefactoringWithPipelineAndExecution {
     //Here we are executing the pipeline
     // via subscribe method
     getName().subscribe(
-      Util.onNext(),
-      Util.onError(),
-      Util.onComplete()
+      Util.onNext()
+//      Util.onError(),
+//      Util.onComplete()
     );
 
     // That thread is processed after the first above
+    // Because we are not in Async configuration
+    // so treads are processed sequentially
     getName();
 
   }
