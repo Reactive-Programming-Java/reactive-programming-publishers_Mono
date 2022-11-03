@@ -12,6 +12,8 @@ public class MonoSubscribe {
     Mono<String> mono = Mono.just("John");
 
     // Using onNext (First parameter) to push data to subscriber
+    // Result: John
+    //         Completed
     mono.subscribe(
       item -> System.out.println(item), // OnNext
       err -> System.out.println(err), // OnError
