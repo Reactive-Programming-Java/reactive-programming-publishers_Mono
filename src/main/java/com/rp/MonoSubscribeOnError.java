@@ -1,5 +1,6 @@
 package com.rp;
 
+import com.rp.util.Util;
 import reactor.core.publisher.Mono;
 
 /**
@@ -17,9 +18,9 @@ public class MonoSubscribeOnError {
     // Result: John
     //         Completed
     mono.subscribe(
-      item -> System.out.println(item), // OnNext
-      err -> System.out.println("ERROR: "+err.getMessage()), // OnError
-      () -> System.out.println("Completed") // onComplete
+      Util.onNext(), // OnNext
+      Util.onError(), // OnError
+      Util.onComplete() // onComplete
     );
   }
 }
