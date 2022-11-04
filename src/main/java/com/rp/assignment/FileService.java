@@ -17,19 +17,19 @@ public class FileService {
   public static void main(String[] args) {
 
 
-    Mono.fromRunnable(createFile("myFile")).subscribe(
+    create("myFile").subscribe(
       Util.onNext(),
       Util.onError(),
       Util.onComplete()
     );
 
-    Mono.fromRunnable(readFile("myFile")).subscribe(
+    read("myFile").subscribe(
       Util.onNext(),
       Util.onError(),
       Util.onComplete()
     );
 
-//    Mono.fromRunnable(deleteFile("myFile")).subscribe(
+//    delete("myFile").subscribe(
 //      Util.onNext(),
 //      Util.onError(),
 //      Util.onComplete()
@@ -39,46 +39,49 @@ public class FileService {
 
   }
 
-  private static Runnable createFile(String filename){
+  public static Mono<Void> create(String filename){
+    return Mono.fromRunnable(() -> createFile(filename));
+  }
+
+  public static Mono<String> read(String filename){
+    return Mono.fromSupplier(() -> readFile(filename));
+  }
+
+  public static Mono<Void> delete(String filename){
+    return Mono.fromRunnable(() -> deleteFile(filename));
+  }
+
+
+  private static void createFile(String filename){
     System.out.println("Creating file "+filename+"...");
-    return () -> {
       try {
         Util.sleepSeconds(1);
         Path file = Util.FILEPATH.resolve(filename+".txt").normalize();
         Files.createFile(file);
         Files.writeString(file, "This is file "+filename);
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e.getMessage());
       }
-    };
   }
 
-  private static Runnable readFile(String  fileName){
+  private static String readFile(String  fileName){
     System.out.println("Reading file "+fileName+"...");
-    return () -> {
       try {
-        Path file = Util.FILEPATH.resolve(fileName+".txt").normalize();
-        Files.lines(file, Charset.forName("UTF-8")).forEach(line -> {
-          System.out.println(line);
-        });
+        return Files.readString(Util.FILEPATH.resolve(fileName+".txt").normalize());
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e.getMessage());
       }
-    };
   }
 
-  private static Runnable deleteFile(String filename) {
+  private static void deleteFile(String filename) {
     System.out.println("Deleting file...");
-    return () -> {
       try {
         Util.sleepSeconds(1);
-        Path file = Util.FILEPATH.resolve(filename+".txt").normalize();
-        Files.delete(file);
+        Files.delete(Util.FILEPATH.resolve(filename+".txt").normalize());
         System.out.println("File deleted");
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e.getMessage());
       }
-    };
   }
 
 }
