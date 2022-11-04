@@ -3,6 +3,7 @@ package com.rp.util;
 import com.github.javafaker.Faker;
 import org.apache.commons.lang3.ObjectUtils;
 
+import java.nio.file.Path;
 import java.util.function.Consumer;
 
 /**
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
 public class Util {
 
   private static final Faker FAKER = Faker.instance();
+  public static final Path FILEPATH = Path.of("/Users/Elimane/JAVA_REACTIVE_PROGRAMMING/Mono_Project/src/main/resources/assignment/data");
 
   public static Consumer<Object> onNext(){
     return o -> System.out.println("Received: "+o);
