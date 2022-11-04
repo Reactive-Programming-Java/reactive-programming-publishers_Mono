@@ -44,7 +44,7 @@ public class FileService {
   }
 
   public static Mono<String> read(String filename){
-    return Mono.fromSupplier(() -> readFile(filename));
+    return Mono.fromCallable(() -> readFile(filename));
   }
 
   public static Mono<Void> delete(String filename){
